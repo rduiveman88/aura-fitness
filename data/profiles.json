@@ -1,0 +1,317 @@
+[
+  {
+    "id": "server_1783197599973_vfbc4",
+    "username": "user_1783197599937",
+    "userModel": {
+      "name": "Test Runner",
+      "goal": "Kracht",
+      "daysPerWeek": 3,
+      "experience": "beginner",
+      "duration": 60,
+      "equipment": [
+        "Bodyweight Alleen"
+      ],
+      "painPoints": [],
+      "language": "nl",
+      "age": 35
+    },
+    "baselineData": null,
+    "history": [],
+    "exercisePrefs": {
+      "likes": [],
+      "dislikes": [],
+      "painNotes": []
+    },
+    "steps": 8000,
+    "lastSync": null,
+    "nextSession": "Upper Body Focus",
+    "activeWorkoutData": null,
+    "createdAt": "2026-07-04T20:39:59.973Z",
+    "password": "a109e36947ad56de1dca1cc49f0ef8ac9ad9a7b1aa0df41fb3c4cb73c1ff01ea"
+  },
+  {
+    "id": "server_1783198406771_lax5o",
+    "username": "user_1783198406744",
+    "userModel": {
+      "name": "Test Runner",
+      "goal": "Kracht",
+      "daysPerWeek": 3,
+      "experience": "beginner",
+      "duration": 60,
+      "equipment": [
+        "Bodyweight Alleen"
+      ],
+      "painPoints": [],
+      "language": "nl",
+      "age": 35
+    },
+    "baselineData": null,
+    "history": [],
+    "exercisePrefs": {
+      "likes": [],
+      "dislikes": [],
+      "painNotes": []
+    },
+    "steps": 8000,
+    "lastSync": null,
+    "nextSession": "",
+    "activeWorkoutData": null,
+    "createdAt": "2026-07-04T20:53:26.771Z",
+    "password": "a109e36947ad56de1dca1cc49f0ef8ac9ad9a7b1aa0df41fb3c4cb73c1ff01ea"
+  },
+  {
+    "id": "google_mock_user_102938",
+    "userModel": {
+      "name": "Richard",
+      "age": 38,
+      "weight": 85,
+      "height": 189,
+      "goal": "Spieropbouw & Hypertrofie",
+      "daysPerWeek": 5,
+      "fixedDays": [
+        1,
+        3,
+        5,
+        6,
+        7
+      ],
+      "duration": 75,
+      "equipment": [
+        "Barbell",
+        "Dumbbells",
+        "Flat Bench",
+        "Incline Bench",
+        "Squat Rack",
+        "Smith Machine",
+        "Cable Station",
+        "Leg Press Machine",
+        "Lat Pulldown Machine",
+        "Pec Deck / Fly Machine",
+        "Pullup Bar",
+        "Dip Station",
+        "EZ-Bar",
+        "Bands",
+        "Exercise Ball",
+        "Medicine Ball",
+        "Preacher Curl Bench",
+        "Chest Press Machine",
+        "Shoulder Press Machine",
+        "Row Machine",
+        "Assisted Pullup / Dip Machine",
+        "Hack Squat Machine",
+        "Leg Extension Machine",
+        "Leg Curl Machine",
+        "Calf Machine",
+        "Abductor / Adductor Machine",
+        "Ab Crunch Machine"
+      ],
+      "apiKey": "",
+      "restDayYogaEnabled": false,
+      "painPoints": [
+        "Schouders"
+      ],
+      "splitPreference": "auto"
+    },
+    "baselineData": {
+      "experienceLevel": "intermediate",
+      "completedAt": "2026-07-04T21:29:54.400Z"
+    },
+    "history": [],
+    "steps": 0,
+    "lastSync": null,
+    "nextSession": "Borst Focus",
+    "activeWorkoutData": [
+      {
+        "name": "Barbell Full Squat",
+        "muscle": "Quadriceps",
+        "equip": "Barbell + Squat Rack",
+        "sets": 4,
+        "reps": "8-10",
+        "targetWeight": 47.5,
+        "restSeconds": 90,
+        "executionCue": "We starten iets voorzichtig omdat dit je eerste sessie in deze app is; na vandaag kalibreren we snel naar je echte niveau. Focus op het zakken vanuit je heupen terwijl je borst trots blijft.",
+        "formGuide": [
+          "Plaats de stang op je bovenrug",
+          "Zet je voeten op schouderbreedte",
+          "Zak gecontroleerd door je knieën tot je bovenbenen parallel aan de vloer zijn",
+          "Duw jezelf krachtig omhoog vanuit je hielen"
+        ],
+        "safetyTip": "Houd je rug ten alle tijden neutraal en voorkom dat je knieën naar binnen knikken.",
+        "imageUrl": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Full_Squat/0.jpg",
+        "images": [
+          "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Full_Squat/0.jpg",
+          "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Full_Squat/1.jpg"
+        ],
+        "maxEffortTestDue": false
+      },
+      {
+        "name": "Bent Over Barbell Row",
+        "muscle": "Bovenrug",
+        "equip": "Barbell",
+        "sets": 4,
+        "reps": "10-12",
+        "targetWeight": 27.5,
+        "restSeconds": 90,
+        "executionCue": "We starten iets voorzichtig omdat dit je eerste sessie in deze app is; na vandaag kalibreren we snel naar je echte niveau. Trek de stang naar je navel en knijp je schouderbladen samen.",
+        "formGuide": [
+          "Buig voorover met een rechte rug",
+          "Pak de stang vast met een bovenhandse greep",
+          "Trek de stang naar je onderbuik",
+          "Laat de stang gecontroleerd zakken zonder je rug te bollen"
+        ],
+        "safetyTip": "Houd je core aangespannen om de onderrug te ontlasten tijdens de beweging.",
+        "imageUrl": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bent_Over_Barbell_Row/0.jpg",
+        "images": [
+          "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bent_Over_Barbell_Row/0.jpg",
+          "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bent_Over_Barbell_Row/1.jpg"
+        ],
+        "maxEffortTestDue": false
+      },
+      {
+        "name": "Bent-Arm Barbell Pullover",
+        "muscle": "Borst",
+        "equip": "Barbell + Flat Bench",
+        "sets": 3,
+        "reps": "10-12",
+        "targetWeight": 15,
+        "restSeconds": 90,
+        "executionCue": "We starten iets voorzichtig omdat dit je eerste sessie in deze app is; na vandaag kalibreren we snel naar je echte niveau. Voel de rek op je borstspieren terwijl je de stang gecontroleerd achter je hoofd brengt.",
+        "formGuide": [
+          "Ga op je rug op het bankje liggen",
+          "Houd de stang boven je borst met licht gebogen ellebogen",
+          "Breng de stang in een boog achter je hoofd tot je rek voelt",
+          "Breng de stang terug naar de startpositie boven je borst"
+        ],
+        "safetyTip": "Houd je onderrug in contact met het bankje en beweeg langzaam om schouderbelasting te minimaliseren.",
+        "imageUrl": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bent-Arm_Barbell_Pullover/0.jpg",
+        "images": [
+          "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bent-Arm_Barbell_Pullover/0.jpg",
+          "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bent-Arm_Barbell_Pullover/1.jpg"
+        ],
+        "maxEffortTestDue": false
+      },
+      {
+        "name": "Leg Curl Machine",
+        "muscle": "Hamstrings",
+        "equip": "Leg Curl Machine",
+        "sets": 3,
+        "reps": "12-15",
+        "targetWeight": 15,
+        "restSeconds": 60,
+        "executionCue": "We starten iets voorzichtig omdat dit je eerste sessie in deze app is; na vandaag kalibreren we snel naar je echte niveau. Focus op het gecontroleerd buigen van je knieën en voel de spanning in je hamstrings.",
+        "formGuide": [
+          "Stel de machine in op jouw lengte",
+          "Ga liggen en plaats je enkels onder de rol",
+          "Buig je knieën en breng de rol naar je billen",
+          "Laat het gewicht langzaam en gecontroleerd zakken"
+        ],
+        "safetyTip": "Houd je heupen stevig tegen het kussen gedrukt om te voorkomen dat je rug hol trekt.",
+        "imageUrl": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Ball_Leg_Curl/0.jpg",
+        "images": [
+          "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Ball_Leg_Curl/0.jpg",
+          "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Ball_Leg_Curl/1.jpg"
+        ],
+        "maxEffortTestDue": false
+      },
+      {
+        "name": "Ab Crunch Machine",
+        "muscle": "Core",
+        "equip": "Ab Crunch Machine",
+        "sets": 3,
+        "reps": "12-15",
+        "targetWeight": 10,
+        "restSeconds": 60,
+        "executionCue": "We starten iets voorzichtig omdat dit je eerste sessie in deze app is; na vandaag kalibreren we snel naar je echte niveau. Focus op het aanspannen van je buikspieren bij elke crunch.",
+        "formGuide": [
+          "Ga zitten en pak de handvatten vast",
+          "Span je buikspieren aan en trek je bovenlichaam naar voren",
+          "Houd de spanning even vast onderin",
+          "Keer gecontroleerd terug naar de startpositie"
+        ],
+        "safetyTip": "Gebruik je buikspieren voor de beweging en niet je armen of nek.",
+        "imageUrl": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Ab_Crunch_Machine/0.jpg",
+        "images": [
+          "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Ab_Crunch_Machine/0.jpg",
+          "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Ab_Crunch_Machine/1.jpg"
+        ],
+        "maxEffortTestDue": false
+      },
+      {
+        "name": "Barbell Curl",
+        "muscle": "Biceps",
+        "equip": "Barbell",
+        "sets": 3,
+        "reps": "10-12",
+        "targetWeight": 10,
+        "restSeconds": 60,
+        "executionCue": "We starten iets voorzichtig omdat dit je eerste sessie in deze app is; na vandaag kalibreren we snel naar je echte niveau. Houd je ellebogen gefixeerd naast je lichaam.",
+        "formGuide": [
+          "Sta rechtop met de stang in je handen",
+          "Houd je ellebogen strak tegen je zij",
+          "Krul de stang omhoog door je biceps aan te spannen",
+          "Laat de stang langzaam zakken tot je armen bijna gestrekt zijn"
+        ],
+        "safetyTip": "Vermijd zwaaien met je bovenlichaam om momentum te voorkomen.",
+        "imageUrl": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Curl/0.jpg",
+        "images": [
+          "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Curl/0.jpg",
+          "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Curl/1.jpg"
+        ],
+        "maxEffortTestDue": false
+      },
+      {
+        "name": "Cable Incline Pushdown",
+        "muscle": "Triceps",
+        "equip": "Cable Station",
+        "sets": 3,
+        "reps": "10-12",
+        "targetWeight": 10,
+        "restSeconds": 60,
+        "executionCue": "We starten iets voorzichtig omdat dit je eerste sessie in deze app is; na vandaag kalibreren we snel naar je echte niveau. Focus op het volledig strekken van je armen onderin.",
+        "formGuide": [
+          "Bevestig een rechte stang aan de hoge katrol",
+          "Houd je ellebogen strak tegen je lichaam",
+          "Duw de stang naar beneden tot je armen gestrekt zijn",
+          "Laat de stang gecontroleerd terugkeren naar borsthoogte"
+        ],
+        "safetyTip": "Houd je schouders laag en gefixeerd; laat ze niet mee naar voren komen.",
+        "imageUrl": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Cable_Incline_Pushdown/0.jpg",
+        "images": [
+          "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Cable_Incline_Pushdown/0.jpg",
+          "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Cable_Incline_Pushdown/1.jpg"
+        ],
+        "maxEffortTestDue": false
+      },
+      {
+        "name": "Calf Machine",
+        "muscle": "Kuiten",
+        "equip": "Calf Machine",
+        "sets": 3,
+        "reps": "12-15",
+        "targetWeight": 15,
+        "restSeconds": 60,
+        "executionCue": "We starten iets voorzichtig omdat dit je eerste sessie in deze app is; na vandaag kalibreren we snel naar je echte niveau. Focus op een volledige range of motion in je enkels.",
+        "formGuide": [
+          "Plaats de kussens op je schouders",
+          "Zet je voorvoeten op de rand van het platform",
+          "Duw jezelf omhoog door je enkels te strekken",
+          "Laat je hielen langzaam zakken tot onder het platformniveau"
+        ],
+        "safetyTip": "Voer de beweging gecontroleerd uit en vermijd veren met je knieën.",
+        "imageUrl": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Calf-Machine_Shoulder_Shrug/0.jpg",
+        "images": [
+          "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Calf-Machine_Shoulder_Shrug/0.jpg",
+          "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Calf-Machine_Shoulder_Shrug/1.jpg"
+        ],
+        "maxEffortTestDue": false
+      }
+    ],
+    "exercisePrefs": {
+      "likes": [],
+      "dislikes": [],
+      "painNotes": [
+        "Schouders"
+      ]
+    }
+  }
+]
