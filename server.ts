@@ -660,10 +660,10 @@ async function startServer() {
     }
   ) {
     const models = [
-      options.primaryModel || "gemini-3.5-flash",
-      "gemini-3.5-flash",
-      "gemini-flash-latest",
-      "gemini-3.1-flash-lite"
+      options.primaryModel || "gemini-1.5-flash",
+      "gemini-1.5-flash",
+      "gemini-2.0-flash",
+      "gemini-1.5-pro"
     ];
     // Filter out any duplicates while preserving order
     const uniqueModels = models.filter((item, pos) => models.indexOf(item) === pos);
@@ -747,7 +747,7 @@ async function startServer() {
 
       const response = await generateContentWithFallback(ai, {
         contents: prompt,
-        primaryModel: "gemini-3.5-flash",
+        primaryModel: "gemini-1.5-flash",
         config: {
           temperature: 0.7,
         },
@@ -1066,7 +1066,7 @@ async function startServer() {
 
       const response = await generateContentWithFallback(ai, {
         contents: systemPrompt,
-        primaryModel: "gemini-3.5-flash",
+        primaryModel: "gemini-1.5-flash",
         config: {
           temperature: 0.2,
           responseMimeType: "application/json",
@@ -1172,7 +1172,7 @@ async function startServer() {
 
       const response = await generateContentWithFallback(ai, {
         contents: systemPrompt,
-        primaryModel: "gemini-3.5-flash",
+        primaryModel: "gemini-1.5-flash",
         config: {
           temperature: 0.3,
           responseMimeType: "application/json",
@@ -1236,7 +1236,7 @@ Geef alleen je antwoord als Aura, zonder de rol-labels te herhalen.`;
 
       const response = await generateContentWithFallback(ai, {
         contents: systemPrompt,
-        primaryModel: "gemini-3.5-flash",
+        primaryModel: "gemini-1.5-flash",
         config: {
           temperature: 0.5,
         },
