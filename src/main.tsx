@@ -13,8 +13,8 @@ window.fetch = function (input, init) {
     let backendUrl = localStorage.getItem('aura_backend_url');
     if (!backendUrl) {
       if (Capacitor.isNativePlatform()) {
-        // Fallback to emulator localhost loopback
-        backendUrl = 'http://10.0.2.2:3000';
+        // Fallback to live production server URL
+        backendUrl = 'https://duiveman.onrender.com';
       } else {
         backendUrl = '';
       }
