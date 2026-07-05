@@ -664,6 +664,7 @@ async function startServer() {
       options.primaryModel || "gemini-3.5-flash",
       "gemini-3.5-flash",
       "gemini-2.0-flash",
+      "gemini-3.1-flash-lite",
       "gemini-1.5-flash",
       "gemini-1.5-pro"
     ];
@@ -749,7 +750,7 @@ async function startServer() {
 
       const response = await generateContentWithFallback(ai, {
         contents: prompt,
-        primaryModel: "gemini-3.5-flash",
+        primaryModel: "gemini-3.1-flash-lite",
         config: {
           temperature: 0.7,
         },
@@ -1174,7 +1175,7 @@ async function startServer() {
 
       const response = await generateContentWithFallback(ai, {
         contents: systemPrompt,
-        primaryModel: "gemini-3.5-flash",
+        primaryModel: "gemini-3.1-flash-lite",
         config: {
           temperature: 0.3,
           responseMimeType: "application/json",
