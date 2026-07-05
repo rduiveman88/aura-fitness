@@ -991,6 +991,11 @@ export default function Workout({
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
 
+  // Reset cancel confirmation state when active session changes or starts
+  useEffect(() => {
+    setShowCancelConfirm(false);
+  }, [activeWorkoutData]);
+
   // Yoga & Rest Day state hooks for Training Tab
   const [completedPoses, setCompletedPoses] = useState<Record<string, boolean>>(() => {
     try {
