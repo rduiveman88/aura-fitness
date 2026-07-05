@@ -650,7 +650,7 @@ export default function Dashboard({
         };
 
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout to prevent hanging
+        const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout to prevent cold-start aborting
 
         const response = await fetch("/api/gemini/insight", {
           method: "POST",
