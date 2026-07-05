@@ -230,11 +230,16 @@ export default function App() {
 
       // Try secure server load
       try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 3500); // 3.5s timeout to prevent cold-start hanging
+
         const response = await fetch('/api/auth/get', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id: savedId })
+          body: JSON.stringify({ id: savedId }),
+          signal: controller.signal
         });
+        clearTimeout(timeoutId);
 
         if (response.ok) {
           const profile: UserProfile = await response.json();
