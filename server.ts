@@ -15,8 +15,9 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const isESM = typeof import.meta !== 'undefined' && !!import.meta.url;
+const __filename = isESM ? fileURLToPath(import.meta.url) : (typeof __filename !== 'undefined' ? __filename : '');
+const __dirname = isESM ? path.dirname(__filename) : (typeof __dirname !== 'undefined' ? __dirname : '');
 
 // Geverifieerde oefeningen-database (publiek domein, free-exercise-db), één keer geladen
 // bij serverstart. Wordt gebruikt om de AI te laten kiezen uit bestaande, betrouwbare
