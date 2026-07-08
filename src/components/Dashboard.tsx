@@ -175,9 +175,6 @@ interface DashboardProps {
   userModel: UserModel;
   history: WorkoutSession[];
   fatigue: Record<MuscleGroup, FatigueInfo>;
-  steps: number;
-  lastSync: string | null;
-  onSyncSteps: () => void;
   onStartWorkout: () => void;
   nextSession: string;
   schedule: ScheduleInfo;
@@ -293,9 +290,6 @@ export default function Dashboard({
   userModel,
   history,
   fatigue,
-  steps,
-  lastSync,
-  onSyncSteps,
   onStartWorkout,
   nextSession,
   schedule,
@@ -382,8 +376,6 @@ export default function Dashboard({
       count++;
     }
     let avg = count > 0 ? (total / count) * 100 : 100;
-    if (steps > 5000 && steps < 10000) avg += 2;
-    if (steps > 15000) avg -= 5;
     return Math.min(100, Math.max(10, Math.round(avg)));
   };
 
@@ -399,14 +391,6 @@ export default function Dashboard({
       }
     });
     let avg = count > 0 ? (total / count) * 100 : 100;
-    
-    // Adjust slightly for steps specifically on leg/lower body days
-    const isLowerBody = nextSession.toLowerCase().includes('lower') || nextSession.toLowerCase().includes('benen') || nextSession.toLowerCase().includes('leg') || nextSession.toLowerCase().includes('onder');
-    if (isLowerBody) {
-      if (steps > 15000) avg -= 8;
-    } else {
-      if (steps > 5000 && steps < 10000) avg += 2;
-    }
     
     return Math.min(100, Math.max(10, Math.round(avg)));
   };
@@ -658,7 +642,6 @@ export default function Dashboard({
           body: JSON.stringify({
             userModel,
             metrics: fatigue,
-            steps,
             history: (Array.isArray(history) ? history : []).slice(0, 5),
             userApiKey: undefined,
             isRestDay: isRestDayForAi,
@@ -726,7 +709,7 @@ export default function Dashboard({
     return () => {
       active = false;
     };
-  }, [steps, nextSession, userModel.apiKey, userModel.name, isRestDay, history.length]);
+  }, [nextSession, userModel.apiKey, userModel.name, isRestDay, history.length]);
 
   return (
     <div className="flex flex-col gap-6 w-full animate-fadeIn pb-2">
@@ -847,44 +830,7 @@ export default function Dashboard({
             </div>
           )}
 
-          {/* 4. Active Steps Card */}
-          <div className={`bg-white/5 border ${isRestDay ? 'border-sky-500/20' : 'border-emerald-500/20'} rounded-3xl p-5 flex items-center justify-between shadow-xl backdrop-blur-md transition-all duration-300`}>
-            <div className="flex items-center gap-4">
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center border shadow-md transition-all ${
-                isRestDay 
-                  ? 'bg-sky-500/10 text-sky-400 border-sky-500/20 shadow-[0_0_10px_rgba(56,189,248,0.1)]' 
-                  : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.1)]'
-              }`}>
-                <Activity className="w-5 h-5" />
-              </div>
-              <div>
-                <span className="text-[10px] text-white/40 uppercase tracking-widest font-semibold block">
-                  {isRestDay ? 'Google Fit Sync (Rustdag)' : 'Google Fit Sync (Trainingsdag)'}
-                </span>
-                <p className={`text-sm font-semibold tracking-tight ${isRestDay ? 'text-sky-300' : 'text-emerald-300'}`}>
-                  {lastSync ? `${steps.toLocaleString()} stappen` : 'Nog niet gesynchroniseerd'}
-                </p>
-                <span className="text-[8.5px] text-white/30 tracking-wide block mt-0.5">
-                  {isRestDay 
-                    ? 'Lichte activiteit stimuleert spierdoorbloeding en herstel.' 
-                    : 'Stappen verhogen de bloedsomloop ter voorbereiding op je training.'}
-                </span>
-                {lastSync && (
-                  <span className="text-[8px] text-white/30 tracking-wider block mt-0.5">
-                    Laatst gesynchroniseerd om: {lastSync}
-                  </span>
-                )}
-              </div>
-            </div>
-            <button 
-              onClick={onSyncSteps}
-              className={`w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center border border-white/10 active:scale-90 transition-all ${
-                isRestDay ? 'hover:border-sky-500/30 text-sky-400' : 'hover:border-emerald-500/30 text-emerald-400'
-              }`}
-            >
-              <RefreshCw className="w-4 h-4 text-white/60" />
-            </button>
-          </div>
+
 
           {/* 5. Open-Meteo Weather widget */}
           {weather && (

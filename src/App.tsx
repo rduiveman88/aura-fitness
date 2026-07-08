@@ -56,8 +56,6 @@ export default function App() {
   const [isOnboarded, setIsOnboarded] = useState<boolean>(false);
   const [baselineData, setBaselineData] = useState<BaselineData | null>(null);
   const [history, setHistory] = useState<WorkoutSession[]>([]);
-  const [steps, setSteps] = useState<number>(0);
-  const [lastSync, setLastSync] = useState<string | null>(null);
   const [nextSession, setNextSession] = useState<string>('Upper Body Focus');
   const [activeWorkoutData, setActiveWorkoutData] = useState<any[] | null>(() => {
     try {
@@ -115,8 +113,6 @@ export default function App() {
     setUserModel(profile.userModel);
     setBaselineData(profile.baselineData);
     setHistory(profile.history || []);
-    setSteps(profile.steps || 0);
-    setLastSync(profile.lastSync);
     setNextSession(profile.nextSession || 'Upper Body Focus');
     // Prefer local active workout data if it exists (handles app resume/crashes seamlessly)
     const localActiveWorkout = localStorage.getItem('aura_active_workout_data');
@@ -142,12 +138,6 @@ export default function App() {
       localStorage.removeItem('aura_baseline_data');
     }
     localStorage.setItem('aura_history', JSON.stringify(profile.history || []));
-    localStorage.setItem('aura_steps', String(profile.steps || 0));
-    if (profile.lastSync) {
-      localStorage.setItem('aura_last_sync', profile.lastSync);
-    } else {
-      localStorage.removeItem('aura_last_sync');
-    }
     localStorage.setItem('aura_next_session', profile.nextSession || 'Upper Body Focus');
     localStorage.setItem('aura_onboarded', 'true');
     localStorage.setItem('aura_exercise_prefs', JSON.stringify(profile.exercisePrefs || { likes: [], dislikes: [], painNotes: [] }));
@@ -204,8 +194,8 @@ export default function App() {
     const updatedUserModel = updatedFields.userModel !== undefined ? updatedFields.userModel : userModel;
     const updatedBaselineData = updatedFields.baselineData !== undefined ? updatedFields.baselineData : baselineData;
     const updatedHistory = updatedFields.history !== undefined ? updatedFields.history : history;
-    const updatedSteps = updatedFields.steps !== undefined ? updatedFields.steps : steps;
-    const updatedLastSync = updatedFields.lastSync !== undefined ? updatedFields.lastSync : lastSync;
+    const updatedSteps = 0;
+    const updatedLastSync = null;
     const updatedNextSession = updatedFields.nextSession !== undefined ? updatedFields.nextSession : nextSession;
     const updatedActiveWorkoutData = updatedFields.activeWorkoutData !== undefined ? updatedFields.activeWorkoutData : activeWorkoutData;
     const updatedExercisePrefs = updatedFields.exercisePrefs !== undefined ? updatedFields.exercisePrefs : JSON.parse(localStorage.getItem('aura_exercise_prefs') || '{"likes":[],"dislikes":[],"painNotes":[]}');
@@ -305,23 +295,17 @@ export default function App() {
     checkAutoLogin();
   }, []);
 
-  // Native Android permission requests on load
+  // Native Android location permission request on load (if needed for weather or location features)
   useEffect(() => {
     if (Capacitor.isNativePlatform()) {
       async function requestAppPermissions() {
         try {
           const checkStatus = await AuraPermissions.checkPermissions();
-          console.log("Current native permission status:", checkStatus);
-          
           if (checkStatus.location !== 'granted') {
             await AuraPermissions.requestLocationPermission();
           }
-          
-          if (checkStatus.activity !== 'granted') {
-            await AuraPermissions.requestActivityPermission();
-          }
         } catch (err) {
-          console.error("Failed to request native Android permissions on load:", err);
+          console.error("Failed to request location permission on load:", err);
         }
       }
       requestAppPermissions();
@@ -599,11 +583,6 @@ export default function App() {
 
       let finalRatio = Math.min(1.0, cumulativeFatigue);
 
-      // Adjust leg/calf recovery depending on high active step counts (active recovery or overreaching)
-      if ((g === 'quadriceps' || g === 'hamstrings' || g === 'calves') && steps > 12000) {
-        finalRatio = Math.min(1.0, finalRatio + 0.15);
-      }
-
       map[g] = {
         ratio: finalRatio,
         hoursSince: hoursSinceLastWorkout,
@@ -613,72 +592,6 @@ export default function App() {
     });
 
     return map;
-  };
-
-  const handleSyncSteps = async () => {
-    let finalStepsCount = 0;
-    
-    if (Capacitor.isNativePlatform()) {
-      try {
-        const actRes = await AuraPermissions.requestActivityPermission();
-        if (actRes.status !== 'granted') {
-          alert("AURA heeft toegang tot fysieke activiteit nodig om stappen te synchroniseren.");
-          return;
-        }
-
-        const sensorData = await AuraPermissions.getDeviceSteps();
-        const cumulativeSteps = sensorData.steps || 0;
-        console.log("Cumulative native steps from sensor:", cumulativeSteps);
-        
-        const todayStr = new Date().toDateString();
-        const savedDate = localStorage.getItem('aura_steps_date');
-        const savedBaseline = localStorage.getItem('aura_steps_baseline');
-        
-        if (cumulativeSteps > 0) {
-          let baseline = cumulativeSteps;
-          const isFirstSync = !savedBaseline || parseInt(savedBaseline, 10) === 0;
-          
-          if (savedDate === todayStr && savedBaseline && parseInt(savedBaseline, 10) > 0) {
-            baseline = parseInt(savedBaseline, 10);
-            if (cumulativeSteps < baseline) {
-              baseline = cumulativeSteps;
-              localStorage.setItem('aura_steps_baseline', String(baseline));
-            }
-          } else {
-            localStorage.setItem('aura_steps_date', todayStr);
-            localStorage.setItem('aura_steps_baseline', String(cumulativeSteps));
-            baseline = cumulativeSteps;
-          }
-          
-          finalStepsCount = cumulativeSteps - baseline;
-          
-          if (isFirstSync) {
-            alert("✅ Stappenteller succesvol gekoppeld! Je stappen worden vanaf nu live bijgehouden.");
-          }
-        } else {
-          // If cumulative steps is 0 (sensor loading or not ready), preserve existing steps count
-          const savedSteps = localStorage.getItem('aura_steps');
-          finalStepsCount = savedSteps ? parseInt(savedSteps, 10) : 0;
-        }
-      } catch (err) {
-        console.error("Native step counting error, returning current steps:", err);
-        const savedSteps = localStorage.getItem('aura_steps');
-        finalStepsCount = savedSteps ? parseInt(savedSteps, 10) : 0;
-      }
-    } else {
-      const savedSteps = localStorage.getItem('aura_steps');
-      finalStepsCount = savedSteps ? parseInt(savedSteps, 10) : 0;
-    }
-
-    const timeStr = new Date().toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
-    setSteps(finalStepsCount);
-    setLastSync(timeStr);
-    localStorage.setItem('aura_steps', String(finalStepsCount));
-    localStorage.setItem('aura_last_sync', timeStr);
-    
-    localStorage.removeItem('aura_cached_insight');
-
-    syncProfile({ steps: finalStepsCount, lastSync: timeStr });
   };
 
   const handleSaveUserModel = (updated: UserModel) => {
@@ -808,7 +721,7 @@ export default function App() {
     });
   };
 
-  const fatigue = useMemo(() => computeFatigue(), [history, steps, userModel.age, userModel.goal, userModel.daysPerWeek, baselineData]);
+  const fatigue = useMemo(() => computeFatigue(), [history, userModel.age, userModel.goal, userModel.daysPerWeek, baselineData]);
   const schedule = useMemo(() => computeSchedule(), [history, userModel]);
   const isRestDay = useMemo(() => !!(schedule.usedDaySpecific && !schedule.isNow), [schedule]);
 
@@ -897,9 +810,6 @@ export default function App() {
             userModel={userModel}
             history={history}
             fatigue={fatigue}
-            steps={steps}
-            lastSync={lastSync}
-            onSyncSteps={handleSyncSteps}
             onStartWorkout={handleStartWorkout}
             nextSession={nextSession}
             schedule={schedule}
