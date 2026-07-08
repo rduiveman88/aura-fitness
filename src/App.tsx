@@ -42,7 +42,16 @@ const splits: Record<string, string[]> = {
 export default function App() {
   const [currentProfile, setCurrentProfile] = useState<UserProfile | null>(null);
   const [profileLoading, setProfileLoading] = useState<boolean>(true);
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'workout' | 'chat' | 'logbook' | 'settings'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'workout' | 'chat' | 'logbook' | 'settings'>(() => {
+    try {
+      const saved = localStorage.getItem('aura_active_workout_data');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return 'workout';
+      }
+    } catch {}
+    return 'dashboard';
+  });
   const [userModel, setUserModel] = useState<UserModel>(initialUserModel);
   const [isOnboarded, setIsOnboarded] = useState<boolean>(false);
   const [baselineData, setBaselineData] = useState<BaselineData | null>(null);
@@ -50,7 +59,18 @@ export default function App() {
   const [steps, setSteps] = useState<number>(0);
   const [lastSync, setLastSync] = useState<string | null>(null);
   const [nextSession, setNextSession] = useState<string>('Upper Body Focus');
-  const [activeWorkoutData, setActiveWorkoutData] = useState<any[] | null>(null);
+  const [activeWorkoutData, setActiveWorkoutData] = useState<any[] | null>(() => {
+    try {
+      const saved = localStorage.getItem('aura_active_workout_data');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {
+      console.error("Error reading initial activeWorkoutData:", e);
+    }
+    return null;
+  });
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
   const [showLogoutModal, setShowLogoutModal] = useState<boolean>(false);
 
@@ -98,7 +118,21 @@ export default function App() {
     setSteps(profile.steps || 0);
     setLastSync(profile.lastSync);
     setNextSession(profile.nextSession || 'Upper Body Focus');
-    setActiveWorkoutData(profile.activeWorkoutData);
+    // Prefer local active workout data if it exists (handles app resume/crashes seamlessly)
+    const localActiveWorkout = localStorage.getItem('aura_active_workout_data');
+    let resolvedActiveWorkout = profile.activeWorkoutData;
+    if (localActiveWorkout) {
+      try {
+        const parsed = JSON.parse(localActiveWorkout);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          resolvedActiveWorkout = parsed;
+        }
+      } catch (e) {
+        console.error("Error parsing local active workout:", e);
+      }
+    }
+
+    setActiveWorkoutData(resolvedActiveWorkout);
 
     // Write to standard localStorage keys so existing components can read/write instantly
     localStorage.setItem('aura_user_model', JSON.stringify(profile.userModel));
@@ -118,8 +152,8 @@ export default function App() {
     localStorage.setItem('aura_onboarded', 'true');
     localStorage.setItem('aura_exercise_prefs', JSON.stringify(profile.exercisePrefs || { likes: [], dislikes: [], painNotes: [] }));
 
-    if (profile.activeWorkoutData) {
-      localStorage.setItem('aura_active_workout_data', JSON.stringify(profile.activeWorkoutData));
+    if (resolvedActiveWorkout) {
+      localStorage.setItem('aura_active_workout_data', JSON.stringify(resolvedActiveWorkout));
     } else {
       localStorage.removeItem('aura_active_workout_data');
     }
