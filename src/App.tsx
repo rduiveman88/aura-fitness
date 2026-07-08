@@ -627,28 +627,39 @@ export default function App() {
         }
 
         const sensorData = await AuraPermissions.getDeviceSteps();
-        const cumulativeSteps = sensorData.steps;
+        const cumulativeSteps = sensorData.steps || 0;
         console.log("Cumulative native steps from sensor:", cumulativeSteps);
         
         const todayStr = new Date().toDateString();
         const savedDate = localStorage.getItem('aura_steps_date');
         const savedBaseline = localStorage.getItem('aura_steps_baseline');
         
-        let baseline = cumulativeSteps;
-        
-        if (savedDate === todayStr && savedBaseline) {
-          baseline = parseInt(savedBaseline, 10);
-          if (cumulativeSteps < baseline) {
+        if (cumulativeSteps > 0) {
+          let baseline = cumulativeSteps;
+          const isFirstSync = !savedBaseline || parseInt(savedBaseline, 10) === 0;
+          
+          if (savedDate === todayStr && savedBaseline && parseInt(savedBaseline, 10) > 0) {
+            baseline = parseInt(savedBaseline, 10);
+            if (cumulativeSteps < baseline) {
+              baseline = cumulativeSteps;
+              localStorage.setItem('aura_steps_baseline', String(baseline));
+            }
+          } else {
+            localStorage.setItem('aura_steps_date', todayStr);
+            localStorage.setItem('aura_steps_baseline', String(cumulativeSteps));
             baseline = cumulativeSteps;
-            localStorage.setItem('aura_steps_baseline', String(baseline));
+          }
+          
+          finalStepsCount = cumulativeSteps - baseline;
+          
+          if (isFirstSync) {
+            alert("✅ Stappenteller succesvol gekoppeld! Je stappen worden vanaf nu live bijgehouden.");
           }
         } else {
-          localStorage.setItem('aura_steps_date', todayStr);
-          localStorage.setItem('aura_steps_baseline', String(cumulativeSteps));
-          baseline = cumulativeSteps;
+          // If cumulative steps is 0 (sensor loading or not ready), preserve existing steps count
+          const savedSteps = localStorage.getItem('aura_steps');
+          finalStepsCount = savedSteps ? parseInt(savedSteps, 10) : 0;
         }
-        
-        finalStepsCount = cumulativeSteps - baseline;
       } catch (err) {
         console.error("Native step counting error, returning current steps:", err);
         const savedSteps = localStorage.getItem('aura_steps');
