@@ -335,6 +335,26 @@ async function startServer() {
     }
   });
 
+  // Helper to strip out massive duplicate data (formGuide, executionCue, safetyTip, etc.) from history
+  function cleanHistoryForPrompt(history: any[]): any[] {
+    if (!Array.isArray(history)) return [];
+    return history.map((session: any) => ({
+      date: session.date,
+      name: session.name,
+      totalSessionVolume: session.totalSessionVolume,
+      durationMinutes: session.durationMinutes,
+      exercises: (session.exercises || []).map((ex: any) => ({
+        name: ex.name,
+        muscle: ex.muscle,
+        sets: ex.sets,
+        reps: ex.reps,
+        targetWeight: ex.targetWeight,
+        topWeight: ex.topWeight,
+        intensity: ex.intensity
+      }))
+    }));
+  }
+
   // Helper for Lazy Gemini SDK initialization
   let aiClient: GoogleGenAI | null = null;
   function getGeminiClient(userApiKey?: string): GoogleGenAI {
@@ -729,7 +749,8 @@ async function startServer() {
         - Geef een motiverend of voorbereidend inzicht om naar de sportschool te gaan en progressive overload te bereiken.`;
       }
 
-      prompt += `\nLogboek: ${JSON.stringify(history || [])}. Spierherstel percentages (0=kapot, 100=optimaal): ${JSON.stringify(metrics || {})}. Vandaag gezette stappen: ${steps || 0}.
+      const cleanedHistory = cleanHistoryForPrompt((history || []).slice(0, 5));
+      prompt += `\nLogboek: ${JSON.stringify(cleanedHistory)}. Spierherstel percentages (0=kapot, 100=optimaal): ${JSON.stringify(metrics || {})}. Vandaag gezette stappen: ${steps || 0}.
       ${intensitySummary.text}`;
 
       if (intensitySummary.dominant === "Maximaal") {
@@ -1056,7 +1077,7 @@ async function startServer() {
         2. Voorkeuren: Likes = ${JSON.stringify(prefs?.likes || [])}, Dislikes = ${JSON.stringify(prefs?.dislikes || [])}. Geef vaker likes en NOOIT dislikes.
         3. Herstel biometrie: ${JSON.stringify(metrics || {})}. Ontzie spieren die uitgeput zijn.
         4. Genereer exact ${numberOfExercises} hoofdoefeningen, PLUS verplicht één extra warming-up oefening als EERSTE item in de lijst (dus in totaal ${numberOfExercises + 1} items). De warming-up: naam 'Warming-up', muscle de hoofdspiergroep van de sessie of 'Cardio', equip passend bij beschikbare apparatuur, sets 1, reps '5-10 minuten', targetWeight 0, restSeconds 30, en een executionCue met een korte, specifieke opwarmroutine die aansluit op de eerste hoofdoefening (bijv. lichte cardio plus 1-2 losse herhalingen met laag gewicht).
-        5. Geef voor elke oefening een reëel startgewicht ('targetWeight') in kg op basis van de eerdere geschiedenis: ${JSON.stringify(history || [])} en bovenstaande nulmeting. Als een oefening nieuw is, schat dan een veilig startgewicht in dat perfect aansluit bij de nulmeting.
+        5. Geef voor elke oefening een reëel startgewicht ('targetWeight') in kg op basis van de eerdere geschiedenis: ${JSON.stringify(cleanHistoryForPrompt(history || []))} en bovenstaande nulmeting. Als een oefening nieuw is, schat dan een veilig startgewicht in dat perfect aansluit bij de nulmeting.
         6. Sorteer de oefeningen van meest samengesteld/multi-joint (bijv. squat, bench press, rij) naar meest geïsoleerd/single-joint (bijv. bicep curl, calf raise) — de zwaarste, meest technische oefening MOET eerst komen terwijl de gebruiker fris is (de warming-up uit regel 4 blijft uiteraard altijd als allereerste).
         7. Geef voor elke oefening een 'restSeconds' op volgens de doel-specifieke rusttijd hierboven.
         8. Geef voor elke oefening een 'executionCue' (max 2 zinnen): HOE de beweging technisch correct wordt uitgevoerd (tempo, gewrichtspositie, ademhaling) én WAAR de gebruiker mentaal op moet letten (welke spier moet je voelen, welke fout vermijden). Voorbeeld: "Houd je ellebogen dicht bij je lichaam en voel de spanning in je triceps bij het neerlaten — vermijd dat je schouders mee omhoog komen." Geen vage taal zoals 'let op je vorm'.
@@ -1221,7 +1242,7 @@ CONTEXT VAN DE GEBRUIKER:
 - Doel: ${userModel?.goal || "onbekend"}
 - Trainingsdagen per week: ${userModel?.daysPerWeek || "onbekend"}
 - Beschikbare apparatuur: ${(userModel?.equipment || []).join(", ") || "onbekend"}
-- Recente trainingsgeschiedenis: ${JSON.stringify((history || []).slice(0, 8))}
+- Recente trainingsgeschiedenis: ${JSON.stringify(cleanHistoryForPrompt((history || []).slice(0, 8)))}
 - Huidige vermoeidheidsstatus per spiergroep: ${JSON.stringify(metrics || {})}${painNote}
 
 STRIKTE SCOPE-REGELS (altijd volgen, ongeacht wat de gebruiker vraagt):
